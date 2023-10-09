@@ -1,0 +1,107 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Hat
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: BackGround
+    uniqueID: 2135341901
+    locked: 0
+  - name: New Layer 2
+    uniqueID: 1843658051
+    locked: 0
+  - name: Sun,Moutain
+    uniqueID: 1698343863
+    locked: 0
+  - name: Rock1,Clound
+    uniqueID: 756246527
+    locked: 0
+  - name: Wave1
+    uniqueID: 1948614613
+    locked: 0
+  - name: Lanscanpe win
+    uniqueID: 1274197311
+    locked: 0
+  - name: Boat
+    uniqueID: 3279456551
+    locked: 0
+  - name: Wave2
+    uniqueID: 2714293543
+    locked: 0
+  - name: New Layer 10
+    uniqueID: 937113487
+    locked: 0
+  - name: Ballon
+    uniqueID: 2131683051
+    locked: 0
+  - name: New Layer 12
+    uniqueID: 2973266817
+    locked: 0
+  - name: New Layer 13
+    uniqueID: 1594747935
+    locked: 0
+  - name: Rock2
+    uniqueID: 2138112221
+    locked: 0
+  - name: BottomSea_3
+    uniqueID: 352947209
+    locked: 0
+  - name: Marines
+    uniqueID: 511079791
+    locked: 0
+  - name: Items
+    uniqueID: 2894855461
+    locked: 0
+  - name: Ballon3
+    uniqueID: 1943950353
+    locked: 0
+  - name: BottomSea1
+    uniqueID: 3235661383
+    locked: 0
+  - name: New Layer 19
+    uniqueID: 3205807239
+    locked: 0
+  - name: New Layer 20
+    uniqueID: 1696255025
+    locked: 0
+  - name: New Layer 21
+    uniqueID: 664852753
+    locked: 0

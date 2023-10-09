@@ -1,0 +1,77 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using UnityEngine;
+using System.Collections;
+using Spine;
+using Spine.Unity;
+
+public class BoatMovement : Movement
+{
+    protected CameraState Movecamera;
+    protected SkeletonAnimation skeletonBoat;
+    protected IMoveToTarget imovetotarget;
+
+    protected bool blAnimEnding = false;
+    protected bool blOneTime = true;
+    protected bool blStartMoveBoat = true;
+    public bool blStartMoveCameraHook;
+
+    protected override void Start()
+    {
+        blStartMoveCameraHook = false;
+        duration = 2.5f;
+        timeElapse = 0;
+        Movecamera = GameObject.Find("GameState").GetComponent<CameraState>();
+        skeletonBoat = GetComponent<SkeletonAnimation>();
+        imovetotarget = gameObject.GetComponent<IMoveToTarget>();
+        if (imovetotarget == null) Debug.Log("anh");
+    }
+
+    protected override void Update()
+    {
+        if (blStartMoveBoat)
+        {
+            blStartMoveBoat = false;
+            StartCoroutine(BoatMoveIn());
+        }    
+        blAnimEnding = Movecamera.blAnimEnding;
+        if (blAnimEnding && blOneTime)
+        {
+            blOneTime = false;
+            StartCoroutine(ActionEnding());
+        }
+    }
+    private IEnumerator BoatMoveIn()
+    {
+        startPst = _transform.position;
+        targetPst = new Vector2(0, _transform.position.y);
+        imovetotarget.MoveToTarget(duration, startPst, targetPst);
+        yield return new WaitForSeconds(2.5f);
+        SoundManager.Instance.StopSound();
+        blStartMoveCameraHook = true;
+    }
+
+    protected IEnumerator ActionEnding()
+    {
+        skeletonBoat.AnimationState.SetAnimation(0, "Ending", false);
+        yield return new WaitForSeconds(0.25f);
+        SoundManager.Instance.PlayAudio("Victory");
+        yield return new WaitForSeconds(1.5f);
+        SoundManager.Instance._audiosource.loop = true;
+        SoundManager.Instance.PlayAudio("Hurrah");
+        yield return new WaitForSeconds(2.25f);
+        skeletonBoat.AnimationState.SetAnimation(0, "Bien mat", false);
+        yield return new WaitForSeconds(0.25f);
+        StartCoroutine(BoatMoveOut());
+    }
+
+    private IEnumerator BoatMoveOut()
+    {
+        startPst = _transform.position;
+        targetPst = new Vector2(12, _transform.position.y);
+        imovetotarget.MoveToTarget(duration, startPst, targetPst);
+        yield return new WaitForSeconds(2.5f);
+        SoundManager.Instance._audiosource.loop = false;
+    }
+}
