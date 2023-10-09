@@ -15,7 +15,6 @@ public class BoatMovement : Movement
 
     protected override void Start()
     {
-
         duration = 2.5f;
         timeElapse = 0;
         skeletonBoat = GetComponent<SkeletonAnimation>();
