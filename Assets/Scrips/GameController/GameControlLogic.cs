@@ -5,12 +5,12 @@ public class GameControlLogic : Movement
     protected Collider2D hitCollider;
     protected GameObject item;
 
+    protected const float pstYItem = -15.5f;
+    protected const float positionMidY = -11f;
+    protected const float positionOutY = -2f;
     protected float pstXItem;
-    protected float pstYItem;
     protected float startPositionX;
     protected float startPositionY;
-    protected float positionMidY;
-    protected float positionOutY;
     protected float delaySoundTime;
 
     protected bool blWaittingClickItem = false;
@@ -82,9 +82,6 @@ public class GameControlLogic : Movement
         startPositionX = Hook.Instance.transform.position.x;
         startPositionY = Hook.Instance.transform.position.y;
         pstXItem = item.transform.position.x + 1.89f;
-        positionMidY = -11f;
-        positionOutY = -2f;
-        pstYItem = -15.5f;
         StartCoroutine(MoveItempstX());
     }
 

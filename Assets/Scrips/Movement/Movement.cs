@@ -21,7 +21,6 @@ public abstract class Movement : GameMonoBehaviour
         base.LoadComponentBase();
         LoadTransform();
         LoadMesRenderer();
-
     }
     protected virtual void LoadTransform()
     {
