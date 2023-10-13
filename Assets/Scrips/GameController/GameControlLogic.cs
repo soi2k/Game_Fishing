@@ -12,35 +12,52 @@ public class GameControlLogic : Movement
     protected float startPositionX;
     protected float startPositionY;
     protected float delaySoundTime;
+    protected float numberRemovedItems;
 
     protected bool blWaittingClickItem = false;
     protected bool blCheckFirstAudioGuiding = true;
     protected bool blCallAudioGuiding = true;
+    protected bool blActiveHookSwinging;
+    protected bool blCheckSecondAudiGuiding;
     protected override void Update()
     {
-        if (blCallAudioGuiding && EventManager.Instance.blActiveHookSwinging)
+        if (blCallAudioGuiding && blActiveHookSwinging)
         {
             blWaittingClickItem = true;
             StartCoroutine(AudioGuiding());
         } 
+
         ClickItem();
     }
 
+    protected void OnEnable()
+    {
+        EventManager.Instance.onActiveHookSwinging += SetActiveHookSwinging;
+    }
+
+    protected void SetActiveHookSwinging(bool blActiveHookSwinging)
+    {
+        this.blActiveHookSwinging = blActiveHookSwinging;
+    }
     protected void ClickItem()
     {
         // Kiểm tra xem người chơi đã click chuột chưa
-        if (blWaittingClickItem && Input.GetMouseButtonDown(0))
+        if (blWaittingClickItem )
         {
-            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            hitCollider = Physics2D.OverlapPoint(mousePosition);
-
-            if (hitCollider != null)
+            if (Input.GetMouseButtonDown(0))
             {
-                blWaittingClickItem = false;
-                EventManager.Instance.blActiveHookSwinging = false;
-                SoundManager.Instance.StopSound();
-                item = hitCollider.gameObject;
-                Move();
+                Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                hitCollider = Physics2D.OverlapPoint(mousePosition);
+
+                if (hitCollider != null)
+                {
+                    blWaittingClickItem = false;
+                    blActiveHookSwinging = false;
+                    EventManager.Instance.OnActiveHookSwinging(blActiveHookSwinging);
+                    SoundManager.Instance.StopSound();
+                    item = hitCollider.gameObject;
+                    Move();
+                }
             }
         }
     }
@@ -62,7 +79,17 @@ public class GameControlLogic : Movement
             }
             blCallAudioGuiding = true;
         }
-
+        else if (blCheckSecondAudiGuiding)
+        {
+            blCheckSecondAudiGuiding = false;
+            while (delaySoundTime < 10)
+            {
+                if (!blWaittingClickItem) yield break;
+                delaySoundTime += Time.deltaTime;
+                yield return null;
+            }
+            blCallAudioGuiding = true;
+        }    
         else
         {
             SoundManager.Instance.PlayAudio("AudioGuiding");
@@ -148,8 +175,8 @@ public class GameControlLogic : Movement
         yield return new WaitForSeconds(duration);
 
         Destroy(item);
-        EventManager.Instance.numberRemovedItems += 1;
-        if (EventManager.Instance.numberRemovedItems != 4)
+        numberRemovedItems += 1;
+        if (numberRemovedItems < 4)
         {
             // [Folow] Delay 0.25s => tiếng móc
             yield return new WaitForSeconds(0.25f);
@@ -159,6 +186,7 @@ public class GameControlLogic : Movement
         else
         {
             Hook.Instance.meshRenderer.enabled = false;
+            EventManager.Instance.OnCameraMoveUp();
             WinState.Instance.Active();
         }
     }
@@ -173,13 +201,12 @@ public class GameControlLogic : Movement
 
         // [Folow] Delay 0.2s => set lượt chơi mới
         yield return new WaitForSeconds(0.2f);
-        if (EventManager.Instance.numberRemovedItems < 4)
-        {
-            blWaittingClickItem = true;
-            blCheckFirstAudioGuiding = true;
-            blCallAudioGuiding = true;
-            EventManager.Instance.blActiveHookSwinging = true;
-        }
+       
+        blWaittingClickItem = true;
+        blCallAudioGuiding = true;
+        blActiveHookSwinging = true;
+        blCheckSecondAudiGuiding = true;
+        EventManager.Instance.OnActiveHookSwinging(blActiveHookSwinging);
     }
 }
 

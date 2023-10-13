@@ -1,22 +1,31 @@
+﻿using UnityEngine;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public class EventManager : Singleton<EventManager>
 {
-    public float numberRemovedItems;
+    // Khai báo các sự kiện theo các kiểu dữ liệu mà bạn cần
+    public event Action onMoveCameraHook;
+    public event Action<bool> onActiveHookSwinging;
+    public event Action onCameraMoveUp;
+    public event Action onSateEnding;
 
-    public bool blMoveCameraHook;
-    public bool blActiveHookSwinging;
-    public bool blAnimEnding;
-
-    protected override void Start()
+    // Gọi các sự kiện tương ứng khi cần
+    public void OnMoveCameraHook()
     {
-        numberRemovedItems = 0;
+        onMoveCameraHook?.Invoke();
+    }
 
-        blMoveCameraHook = false;
-        blActiveHookSwinging = false;
-        blAnimEnding = false;
+    public void OnActiveHookSwinging(bool isActive)
+    {
+        onActiveHookSwinging?.Invoke(isActive);
+    }
+
+    public void OnCameraMoveUp()
+    {
+        onCameraMoveUp?.Invoke();
+    }  
+    public void OnSateEnding()
+    {
+        onSateEnding?.Invoke();
     }
 }
