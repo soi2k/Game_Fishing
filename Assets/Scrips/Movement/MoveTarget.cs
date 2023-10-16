@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MoveTarget : Movement,IMoveToTarget
+public class MoveTarget : MovementAbstract,IMoveToTarget
 {
     public virtual void MoveToTarget(float duration, Vector3 startPst, Vector3 targetPst)
     {
