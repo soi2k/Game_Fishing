@@ -5,19 +5,8 @@ using UnityEngine;
 public class SoundManager : Singleton<SoundManager>
 {
     public AudioSource _audiosource;
-    protected override void Start()
+    protected void Awake()
     {
-        base.Start();
-    }
-    protected override void LoadComponentBase()
-    {
-        base.LoadComponentBase();
-        this.LoadComponents();
-    }
-
-    protected virtual void LoadComponents()
-    {
-        if (_audiosource != null) return;
         _audiosource = GetComponent<AudioSource>();
     }
 

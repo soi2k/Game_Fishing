@@ -7,7 +7,7 @@ public class EventManager : Singleton<EventManager>
     public event Action onMoveCameraHook;
     public event Action<bool> onActiveHookSwinging;
     public event Action onCameraMoveUp;
-    public event Action onSateEnding;
+    public event Action onWinState;
 
     // Gọi các sự kiện tương ứng khi cần
     public void OnMoveCameraHook()
@@ -24,8 +24,8 @@ public class EventManager : Singleton<EventManager>
     {
         onCameraMoveUp?.Invoke();
     }  
-    public void OnSateEnding()
+    public void OnWinState()
     {
-        onSateEnding?.Invoke();
+        onWinState?.Invoke();
     }
 }
